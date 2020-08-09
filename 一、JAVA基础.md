@@ -2744,22 +2744,173 @@ System.out.println(arr[0][2]);//0
 
 ### 2.2.1、类与对象的关系
 
-> 类：是一组相关的属性和行为的集合
+> 类：是一组相关的属性和行为的集合；是一个抽象的概念
 >
-> 对象：是该类事物的具体体现
+> 对象：是该类事物的具体体现；是具体存在的个体
 >
 > ```
 > 类：学生类
 > 对象：班长就是一个对象
 > ```
 >
-> 0
+> ```
+> 事物：					类：					
+> 	属性(身高，体重)		成员变量：和变量的定义一样的格式，但是位置不同，在类中方法外
+> 	行为(吃饭，睡觉)		成员方法：和的方法定义一样的格式，但是今天把static先去掉
+> ```
+>
+> ```
+> 
+> ```
+
+#### 2.2.1.1、学生类的定义
+
+```
+class Student {
+	//定义变量
+	//姓名
+	String name;
+	//年龄
+	int age;
+	//地址
+	String address;
+	
+	//定义方法
+	//学习的方法
+	public void study() {
+		System.out.println("学生爱学习");
+	}
+	
+	//吃饭的方法
+	public void eat() {
+		System.out.println("学习饿了,要吃饭");
+	}
+	
+	//睡觉的方法
+	public void sleep() {
+		System.out.println("学习累了,要睡觉");
+	}
+}
+```
+
+#### 2.2.1.2、学生类的使用
+
+```
+class StudentDemo {
+	public static void main(String[] args) {
+		//类名 对象名 = new 类名();
+		Student s = new Student();
+		
+		//输出成员变量值
+		//System.out.println(s.name);
+		//System.out.println(s.age);
+		//System.out.println(s.address);
+		//改进写法
+		System.out.println(s.name+"---"+s.age+"---"+s.address);
+		
+		
+		//给成员变量赋值
+		s.name = "林青霞";
+		s.age = 27;
+		s.address = "北京";
+		//赋值后的输出
+		System.out.println(s.name+"---"+s.age+"---"+s.address);
+		
+		//调用方法
+		s.study();
+		s.eat();
+		s.sleep();
+	}
+}
+```
 
 
 
-### 2.2.2、作用
+#### 2.2.1.3、手机类的定义的练习
+
+```
+/*
+	手机事物：
+		属性：品牌，价格，颜色...
+		行为：打电话，发短信，玩游戏...
+		
+	手机类：
+		成员变量：品牌，价格，颜色
+		成员方法：打电话，发短信，玩游戏
+*/
+class Phone {
+	//品牌
+	String brand;
+	//价格
+	int price;
+	//颜色
+	String color;
+	
+	//打电话的方法
+	public void call(String name) {
+		System.out.println("给"+name+"打电话");
+	}
+	
+	//发短信的方法
+	public void sendMessage() {
+		System.out.println("群发短信");
+	}
+	
+	//玩游戏的方法
+	public void playGame() {
+		System.out.println("玩游戏");
+	}
+}
+```
+
+#### 2.2.1.4、手机类的使用
+
+```
+class PhoneDemo {
+	public static void main(String[] args) {
+		//创建手机对象
+		//类名 对象名 = new 类名();
+		Phone p = new Phone();
+		
+		//直接输出成员变量值
+		System.out.println(p.brand+"---"+p.price+"---"+p.color);
+		
+		//给成员变量赋值
+		p.brand = "诺基亚";
+		p.price = 100;
+		p.color = "灰色";
+		//再次输出
+		System.out.println(p.brand+"---"+p.price+"---"+p.color);
+		
+		//调用方法
+		p.call("林青霞");
+		p.sendMessage();
+		p.playGame();
+	}
+}
+```
+
+
 
 ## 2.3、对象的内存图
+
+
+
+### 2.3.1、一个对象的内存图
+
+> ![49、一个对象的内存图](F:\01、java基础\笔记的截图图片\49、一个对象的内存图.bmp)
+
+
+
+### 2.3.2、两个对象的内存图
+
+> ![50、二个对象的内存图](F:\01、java基础\笔记的截图图片\50、二个对象的内存图.bmp)
+
+
+
+### 2.3.2、三个对象的内存图
+
+> ![51、三个对象的内存图](F:\01、java基础\笔记的截图图片\51、三个对象的内存图.bmp)
 
 ## 2.4、成员变量和局部变量的区别
 
