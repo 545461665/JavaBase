@@ -4325,15 +4325,583 @@ final：最终的意思。最常见的是它可以修饰类，方法，变量。
 >
 > ![101、匿名内部类面试题](F:\01、java基础\笔记的截图图片\101、匿名内部类面试题.png)
 
+# 三、String类
+
+> 字符串是由多个字符组成的一串数据。也可以看陈格式一个字符数组
+>
+> 通过API，我们可以知道
+>
+> ```
+> 1、字符串字面值“abc”也可以看陈更是一个字符对象
+> 2、字符串是常量，一旦赋值，其值不能被改变。
+> ```
+>
+> 
+
+## 3.1、String类的构造方法
+
+### 1、空构造
+
+> ```
+> public String ():空构造
+> ```
+>
+> 
+
+### 2、把字节数组转成字符串
+
+> ```
+> public String(byte[] bytes):
+> ```
+>
+> ```
+> public class StringDemo {
+>     public static void main(String[] args) {
+>         String s1=new String();
+>         System.out.println("s1:"+s1);
+>         System.out.println("s1.length():"+s1.length());
+>     }
+> }
+> 
+> ```
+>
+> 
 
 
 
+### 3、把字节数组的一部分转成字符串
+
+> ```
+> public String(byte[] bytes,int index,int length):
+> ```
+
+```
+public class StringDemo {
+    public static void main(String[] args) {
+        byte[] bys={97,98,99,100};
+        String s1=new String(bys);
+        System.out.println("s1:"+s1);
+        System.out.println("s1.length():"+s1.length());
+    }
+}
+
+```
 
 
 
+### 4、把字符数组转成字符串
+
+> ```
+> public String (char[] value)
+> ```
+>
+> ```
+> public class StringDemo {
+>     public static void main(String[] args) {
+>         byte[] bys={97,98,99,100};
+>         String s1=new String(bys,1,3);
+>         System.out.println("s1:"+s1);
+>         System.out.println("s1.length():"+s1.length());
+>     }
+> }
+> ```
+>
+> 
+
+### 5、把字符数组的一部分转成字符串
+
+> ```
+> public String (char[]value,int index,int count)//包左不包右
+> ```
+>
+> ```
+> public class StringDemo {
+>     public static void main(String[] args) {
+>        char[]chs={'a','b','c','d','e','爱','我'};
+>         String s1=new String(chs,5,2);
+>         System.out.println("s1:"+s1);
+>         System.out.println("s1.length():"+s1.length());
+>     }
+> }
+> ```
+
+### 6、把字符串常量值转成字符串
+
+> ```
+> public String(String original)
+> ```
+>
+> ```
+> public class StringDemo {
+>     public static void main(String[] args) {
+>         //String s1=new String("abcde");
+>         String s1="abcde";
+>         System.out.println("s1:"+s1);
+>         System.out.println("s1.length():"+s1.length());
+>     }
+> }
+> 
+> ```
 
 
 
+## 3.2、String类的特点
+
+### 1、字符串是常量，他得知在创建后不能改变
+
+```
+String s="hello";
+s+=“world”;
+问s的结果是多少？
+s=helloworld
+```
+
+> ![102、String的特点](F:\01、java基础\笔记的截图图片\102、String的特点.png)
+
+## 3.3、面试题
+
+### 1、String s=new String("hello")和String s="hello"的区别
+
+> 有，前者会创建两个对象，后者创建1个对象
+>
+> ![103、String字面值对象和构造方法创建爱你对象的区别](F:\01、java基础\笔记的截图图片\103、String字面值对象和构造方法创建爱你对象的区别.png)
+
+### 2、字符串比较之看程序写结果
+
+> ```
+> public class StringDemo {
+>     public static void main(String[] args) {
+>         String s1=new String("hello");
+>         String s2=new String("hello");
+>         System.out.println(s1==s2);
+>         System.out.println(s1.equals(s2));
+> 
+>         String s3=new String("hello");
+>         String s4="hello";
+>         System.out.println(s3==s4);
+>         System.out.println(s3.equals(s4));
+> 
+>         String s5="hello";
+>         String s6="hello";
+>         System.out.println(s5==s6);
+>         System.out.println(s5.equals(s6));
+>     }
+> }
+> ```
+>
+> 
+
+### 3、字符串拼接之看程序写结果
+
+> 字符串如果是变量相加，先开空间，然后在拼接
+>
+> 字符串如果是常量相加，先加，然后在常量池找，如果有就返回，如果没有就创建
+
+> ```
+> public class StringDemo {
+>     public static void main(String[] args) {
+>         String s5="hello";
+>         String s6="world";
+>         String s7="helloworld";
+>         System.out.println(s7==s6+s5);
+>         System.out.println(s7.equals(s5+s6));
+>         System.out.println(s7=="hello"+"world");//"hello"+"world"是常量，先加再常量池里找，如果有就直接返回，否则就创建
+>         System.out.println(s7.equals("hello"+"world"));
+>     }
+> }
+> ```
+
+## 3.4、String类的方法
+
+### 1、判断
+
+#### A、比较字符串的内容是否相同
+
+```
+boolean equels(Object obj):
+```
+
+#### B、比较字符串的内容是否相同，忽略大小写
+
+```
+boolean equelsIgnoreCase(String str):
+```
+
+
+
+#### C、判断大字符串中是否包含小字符串
+
+```
+boolean contians(String str)：
+```
+
+
+
+#### D、判断字符串是否以xxx开头
+
+```
+boolean startsWith(String str):
+```
+
+
+
+#### E、判断字符串是否以xxx结尾
+
+```
+boolean endsWith(String str):
+```
+
+
+
+#### F、判断字符串是为空
+
+```
+boolean isEmpty():
+```
+
+#### 注意：
+
+字符串内容为空和字符串对象为空
+
+```
+String s="";//字符串内容为空
+String s=null;//字符串对象为空
+```
+
+#### 2、登录案例
+
+> 模拟登陆，给三个机会，并提示还有几次
+>
+> ```
+> public class GuessNumberGame {
+>     public static void start() {
+>         // int number=(int)(Math.random()*100)+1;
+>         Random random = new Random();
+>         int number = random.nextInt(100) + 1;
+>         System.out.println(number);
+>         while (true) {
+> 
+>             Scanner scanner = new Scanner(System.in);
+>             System.out.println("请输入你要猜的数字");
+>             int guessNumber = scanner.nextInt();
+> 
+>             if (number == guessNumber) {
+>                 System.out.println("恭喜你猜中了");
+>                 break;
+>             } else {
+>                 if (number > guessNumber) {
+>                     System.out.println("你猜的数小了");
+>                 } else {
+>                     System.out.println("你猜的数大了");
+>                 }
+>             }
+> 
+>         }
+>     }
+> }
+> ```
+>
+> ```
+> public class StringDemo {
+>     public static void main(String[] args) {
+>         Scanner scanner = new Scanner(System.in);
+>         //while (true) {
+>         for (int i = 1; i <= 3; i++) {
+>             System.out.println("请输入用户名");
+>             String userName = scanner.nextLine();
+>             System.out.println("请输入密码");
+>             String password = scanner.nextLine();
+>             if ((userName.equals("") || userName == null) || (password.equals("") || password == null)) {
+>                 System.out.println("用户名或者密码不能为空");
+>             } else {
+>                 if (userName.equals("888") && password.equals("888")) {
+>                     System.out.println("登录成功,开始玩游戏");
+>                     GuessNumberGame.start();
+>                     break;
+>                 } else {
+>                     if (i >= 3) {
+>                         System.out.println("错误密码输入3次，请联系管理员");
+>                         break;
+>                     } else {
+>                         System.out.println("你还有" + (3 - i) + "次机会");
+>                     }
+>                 }
+>             }
+>         }
+>     }
+> }
+> ```
+>
+> 
+
+### 2、获取功能
+
+> 获取字符串的长度
+
+```
+int length();
+```
+
+
+
+> 获取指定索引位置的字符
+
+```
+char charAt(int index)
+```
+
+
+
+> 返回指定字符在此字符串中第一次出现的索引
+
+```
+int indexOf(int ch)
+	为什么治理是int类型，而不是char类型
+		原因是‘a’和97其实都可以代表‘a’
+```
+
+> 返回指定字符串在此字符串中第一次出现的索引
+
+```
+int indexOf(String str)
+	为什么治理是int类型，而不是char类型
+		原因是‘a’和97其实都可以代表‘a’
+```
+
+> 返回指定字符在此字符串中从指定位置后第一次出现的索引
+
+```
+int indexOf(int ch,int fromIndex)
+```
+
+> 返回指定字符串在此字符串中从指定位置后第一次出现的索引
+
+```
+int indexOf(String str,int fromIndex)
+```
+
+> 从指定位置开始截取字符串，默认到末尾
+
+```
+String subString(int start)
+```
+
+> 从指定位置开始到结束截取字符串
+
+```
+String subString(int start,int end)
+```
+
+### 3、字符串的遍历
+
+> 遍历获取字符串中的每一个字符
+>
+> ```
+> public class StringTest {
+>     public static void main(String[] args) {
+>         String s="helloworld";
+>         for (int i=0;i<s.length();i++){
+>             char c = s.charAt(i);
+>             System.out.print(c+" ");
+>         }
+> 
+>     }
+> }
+> ```
+
+
+
+#### A、统计字符个数
+
+> 一个字符串中大写字母字符，小写字母字符，数字字符出现的次数（不考虑其他字符）
+>
+> 举例“Hello123World”
+>
+> ```
+> package com.liang.string;
+> 
+> public class StringTest {
+>     public static void main(String[] args) {
+>         String s = "Hello123World";
+> 
+>         getCount(s);
+> 
+>     }
+> 
+>     private static void getCount(String s) {
+>         int max = 0;
+>         int min = 0;
+>         int num = 0;
+>         for (int i = 0; i < s.length(); i++) {
+>             char ch = s.charAt(i);
+>             if (ch > 'a' && ch < 'z') {
+>                 min++;
+>             }
+>             if (ch > 'A' && ch < 'Z') {
+>                 max++;
+>             }
+>             if (ch > '0' && ch < '9') {
+>                 num++;
+>             }
+>         }
+>         System.out.println("大写字母字符有" + max + "个，小写字母字符有" + min + "个，数字字符有" + num + "个");
+>     }
+> 
+>     private static void printString(String s) {
+>         for (int i = 0; i < s.length(); i++) {
+>             char c = s.charAt(i);
+>             System.out.print(c + " ");
+>         }
+>     }
+> 
+> }
+> 
+> ```
+
+### 4、字符串的转换
+
+> 把字符串转换为字节数组
+
+```
+byte[] getBytes()
+```
+
+> 把字符串转换成字符数组
+
+```
+char[] toCharArray()
+```
+
+> 把字符数组转成字符串
+
+```
+static String valueOf(char[]chs)
+```
+
+> 把int类型的数据转成字符串
+
+```
+static String valueOf(int i)
+```
+
+> 把字符串转成小写
+
+```
+String toLowerCase()
+```
+
+> 把字符串转成大写
+
+```
+String concat(String str)
+```
+
+#### 1)、练习
+
+> 把一个字符串的首字母转成大写，其他为小写
+>
+> ```
+> public class StringTest {
+>     public static void main(String[] args) {
+>         String s = "helloWOELD";
+> 
+>         getOther(s);
+> 
+>     }
+> 
+>     private static void getOther(String s){
+>         String s2 = s.substring(0, 1).toUpperCase();
+>         String s1 = s.substring(1).toLowerCase();
+> 
+>         System.out.println(s2.concat(s1));
+>     }
+>  }   
+> ```
+
+
+
+### 5、字符串的其他功能
+
+1）、替换功能
+
+```
+String replace(char old,char new)
+```
+
+```
+String replace(String old,String new)
+```
+
+2）、去除字符串两空格
+
+```
+String trim()
+```
+
+3）、按照字典顺序比较两个字符串
+
+```
+int compareTo(String str)
+```
+
+```
+int compareToIgnoreCase(String str)
+```
+
+#### A、把int数组拼接字符串
+
+> int [] arr={1，2，3}输出结果是[1,2,3]
+>
+> ```
+> public class StringTest {
+>     public static void main(String[] args) {
+>         int []arr={1,2,3};
+>         printArr(arr);
+> 
+>     }
+>     private static void printArr(int []arr){
+>         System.out.print("[");
+>         for (int i = 0; i <arr.length ; i++) {
+>             if(i==arr.length-1){
+>                 System.out.println(arr[i]+"]");
+>             }else {
+>                 System.out.print(arr[i]+",");
+>             }
+>         }
+>     }
+>  }
+> ```
+
+
+
+#### B、字符串翻转
+
+> 键盘录入“abc”,输出结果：“cba”
+>
+> ```
+> public class StringTest {
+>     public static void main(String[] args) {
+>         String s="abc123";
+>         stringToReserve(s);
+> 
+>     }
+>     private static void stringToReserve(String s){
+>         char[] chars = s.toCharArray();
+>         for(char i=0;i<chars.length/2;i++){
+>             char temp=chars[chars.length-1-i];
+>             chars[chars.length-1-i]=chars[i];
+>             chars[i]=temp;
+>         }
+>         System.out.println(String.valueOf(chars));
+>     }
+>   }
+> ```
+
+
+
+C、统计大串中小串出现的次数
+
+> woaijavawozhendeaijavawozhendeaijavawozhendehenaijavaxinbuxinwoaijavagun中java出现了5次
 
 
 
