@@ -4903,9 +4903,28 @@ C、统计大串中小串出现的次数
 
 > woaijavawozhendeaijavawozhendeaijavawozhendehenaijavaxinbuxinwoaijavagun中java出现了5次
 
+```
+public class StringTest {
+    public static void main(String[] args) {
+        String s="woaijavawozhendeaijavawozhendeaijavawozhendehenaijavaxinbuxinwoaijavagun";
+        String small="java";
+        int count=getCount2(s,small);
+        System.out.println(count);
 
+    }
 
+    private static int getCount2(String s, String small) {
+        int count=0;
+        int index;
+        while((index=s.indexOf(small))!=-1){
+            count++;
+            s=s.substring(index+small.length());
+        }
+        return count;
+    }
+ }
 
+```
 
 
 
