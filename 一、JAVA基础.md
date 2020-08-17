@@ -4926,6 +4926,307 @@ public class StringTest {
 
 ```
 
+# 四、StringBuffer类
+
+## 1、概述
+
+> 如果对字符串进行拼接操作，每次拼接都会构建一个新的String，既耗时，又浪费空间，StringBuffer就可以解决这个问题
+>
+> 线程安全的可变字符序列
+
+## 2、StringBuffer和String的区别？
+
+> StringBuffer长度和内容可变，String都不可变
+>
+> 如果使用前者做字符串拼接，不会浪费太多的资源
+
+## 3、构造方法
+
+> 无参构造
+>
+> ```
+> public StringBuffer()
+> ```
+>
+> 
+
+> 指定容量的字符串缓冲区对象
+>
+> ```
+> public StringBuffer(int capacity)
+> ```
+>
+> 
+
+
+
+> 指定字符串内容的字符串换中去对象
+>
+> ```
+> public StringBuffer(String str)
+> ```
+>
+> 
+
+## 4、StringBuffer的方法
+
+### 1)、添加功能
+
+> 可以把任意类型添加到字符串缓冲区里面
+
+```
+public StringBuffer append(String str)
+```
+
+> 指定位置吧任意类型的数据插入到字符串缓冲区里面，并放回字符串缓冲区本身
+
+```
+public StringBuffer insert(int offset,String str)
+```
+
+
+
+### 2)、删除功能
+
+> 删除指定位置的字符，并返回本身（删除一个）
+
+```
+public StringBuffer deleteCharAt(int index):索引从0开始
+```
+
+> 删除从指定位置开始指定位置结束的内容，并返回本身
+
+```
+public StringBuffer delete(int start,int end)：从0开始，包左不包右
+```
+
+
+
+### 3)、替换功能
+
+> 从start开始到end用str替换
+
+```
+public StringBuffer replace(int start,int end,String str)
+```
+
+### 4)、反转功能
+
+```
+public StringBuffer reverse()
+```
+
+### 5)、截取功能
+
+`返回的不再是StringBuffer本身`
+
+```
+public String subString(int start)
+```
+
+
+
+```
+public String subString(int start,int end)
+```
+
+### 6)、练习
+
+> 1、StringBuffer和String的相互转换
+>
+> ```
+> String转成StringBuffer
+> String s="hello";
+> StringBuffer sb=new StringBuffer(s);
+> 或者
+> StringBuffer sb=new StringBuffer();
+> sb.append(s);
+> ```
+>
+> ```
+> StringBuffer转成String
+> StringBuffer sb=new StringBuffer("s");
+> String str=new String(sb);
+> 或者
+> String str=sb.toString();
+> ```
+>
+> 
+
+#### A、把数组拼接成指定格式的字符串
+
+> ![104、把数组拼接成一个字符串_StringBuffer](F:\01、java基础\笔记的截图图片\104、把数组拼接成一个字符串_StringBuffer.png)
+
+#### B、字符串翻转
+
+> ![105、StringBuffer字符串反转](F:\01、java基础\笔记的截图图片\105、StringBuffer字符串反转.png)
+
+#### C、判断一个字符串是否对称
+
+> ```
+> public class StringBufferDemo {
+>     public static void main(String[] args) {
+>         String s="abvba";
+>         System.out.println(isSame(s));
+> 
+>     }
+>     public static boolean isSame(String s){
+>         boolean flag=false;
+>         char[] chars = s.toCharArray();
+>         for(int start=0,end=chars.length-1;start<=end;start++,end--){
+>             if(chars[start]==chars[end]){
+>                 flag=true;
+>             }
+>         }
+>         return flag;
+>     }
+> 
+> }
+> 
+> ```
+>
+> 方法2
+>
+> ```
+> public class StringBufferDemo {
+>     public static void main(String[] args) {
+>         String s="abvba";
+>         System.out.println(isSame2(s));
+> 
+>     }
+>     public static boolean isSame2(String s){
+>         return new StringBuffer(s).reverse().toString().equals(s);
+>     }
+> }
+> ```
+>
+> 
+
+## 5、StringBuffer的面试题
+
+### 1）、String，StringBuffer，StringBuilder的区别
+
+> ```
+> 1、String是内容不可变的，StringBuffer，Stringbuilder都是内容可变的
+> 
+> 2、StringBuffer是同步的，数据安全，效率低；StringBuilder是不同步的，数据不安全的，效率高
+> ```
+>
+> 
+
+### 2）、StringBuffer和数组的区别
+
+> ```
+> StringBuffer和数组都可以看作是一个容器，装其他的数据，但是StringBuffer最终的数据是一个字符串数据
+> 而数组可以放多种数据，但必须是同一种类型
+> ```
+>
+> 
+
+#### 3）、看程序写结果
+
+> String作为参数传递
+>
+> StringBuffer作为参数传递
+>
+> ![106、StringBuffer面试题3](F:\01、java基础\笔记的截图图片\106、StringBuffer面试题3.png)
+>
+> ```
+> 注意：
+> 基本类型：形式参数的改变不影响实际参数
+> 引用类型：形式参数的改变直接影响实际参数
+> ```
+>
+> 
+
+# 五、数组高级
+
+## 1、冒泡排序
+
+> 原理图解
+>
+> ![108、冒泡排序_原理图解](F:\01、java基础\笔记的截图图片\108、冒泡排序_原理图解.png)
+
+> 代码实现
+>
+> ![108、冒泡排序_代码实现](F:\01、java基础\笔记的截图图片\108、冒泡排序_代码实现.png)
+
+## 2、选择排序
+
+> 原理图解
+>
+> ![109、选择排序_原理图解](F:\01、java基础\笔记的截图图片\109、选择排序_原理图解.png)
+
+> 代码实现
+>
+> ![109、选择排序_代码实现png](F:\01、java基础\笔记的截图图片\109、选择排序_代码实现png.png)
+
+> 案例：把字符串进行排序
+>
+> “adcgebf”--->abcdefg
+
+## 3、二分查找
+
+> 原理图解
+>
+> ![110、二分查找_原理图解](F:\01、java基础\笔记的截图图片\110、二分查找_原理图解.png)
+
+> 代码实现
+>
+> ![110、二分查找_代码实现](F:\01、java基础\笔记的截图图片\110、二分查找_代码实现.png)
+
+```
+二分查找注意事项：
+```
+
+
+
+> ```
+> 插入排序，归并排序，快速排序，冒泡排序，希尔排序，选择排序，（舞动的排序算法视频）
+> ```
+>
+> ![107、数组排序的种类](F:\01、java基础\笔记的截图图片\107、数组排序的种类.png)
+
+## 4、Arrays工具类
+
+## 5、Character
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
