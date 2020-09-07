@@ -5578,7 +5578,222 @@ public String subString(int start,int end)
 
 ## 2、Map
 
+### 2.1、Map集合的特点
 
+```
+可以存储键值对的元素，将键映射到值得对象，一个映射不能好汉重复值，每个键最多只能映射到一个值。
+		键是set（不可重复复）集合，值是list（可重复）集合
+```
+
+#### Map集合和Collection集合的区别
+
+```
+Map集合：Map是双列的，存储元素是成对出现的，键是唯一的，值是可重复的，数据结构值针对键有效，跟值无关
+Collection集合：单列的，存储集合是单独出现的，Collection的子类Set是唯一的，List是可重复的，数据结构是针				对元素有效
+```
+
+
+
+### 2.2、Map集合的功能(方法)
+
+![134、Map集合功能概述](F:\01、java基础\笔记的截图图片\134、Map集合功能概述.png)
+
+#### 添加功能
+
+` V put(K key,V value)`
+
+```
+	public static void main(String[] args) {
+		Map<String,String>map=new HashMap<String,String>();
+		map.put("文章", "马伊琍");
+		map.put("邓超", "孙俪");
+		map.put("周杰伦", "昆凌");
+		System.out.println("map:"+map);
+	}
+```
+
+#### 删除功能
+
+` void clear`
+
+`V remove(Object key)`
+
+#### 判断功能
+
+`boolean containsKey(Object key)`
+
+#### 获取功能
+
+`V get(Object key):根据键获取值`
+
+`Set<K>keySet():获取集合中所有键的集合`
+
+`Collection<V>values:获取集合中所有值得集合`
+
+```
+public class MapDemo {
+	public static void main(String[] args) {
+		Map<String,String>map=new HashMap<String,String>();
+		map.put("文章", "马伊琍");
+		map.put("邓超", "孙俪");
+		map.put("周杰伦", "昆凌");
+		
+		System.out.println("map:"+map.get("周杰伦"));
+		System.out.println("map:"+map.get("周杰"));
+		
+		Set<String>set=map.keySet();
+		for(String key:set){
+			System.out.println(key+"----"+map.get(key));
+			
+		}
+		Collection<String>con=map.values();
+		for(String value:con){
+			System.out.println(value);
+		}
+	}
+}
+```
+
+`Set<Map.entry<K,V>>entrySet():返回的是键值对对象的集合`
+
+```
+	Map<String,String>map=new HashMap<String,String>();
+		map.put("文章", "马伊琍");
+		map.put("邓超", "孙俪");
+		map.put("周杰伦", "昆凌");
+		
+		Set<Map.Entry<String,String>>set1=map.entrySet();
+		for(Map.Entry<String, String> me:set1){
+			System.out.println(me.getKey()+"---"+me.getValue());
+		}
+```
+
+
+
+#### 长度功能
+
+`int size():返回集合中的键值对的对数`
+
+#### Map集合遍历图解
+
+![135、Map集合遍历图解](F:\01、java基础\笔记的截图图片\135、Map集合遍历图解.png)
+
+
+
+### 2.3、HashMap
+
+> HashMap是基于哈希表的Map接口实现。(唯一，无序)
+> 哈希表的作用是用来保证键的唯一性的
+
+![136、HashMap遍历](F:\01、java基础\笔记的截图图片\136、HashMap遍历.png)
+
+#### 2.3.1、LinkedHashMap
+
+> 是Map接口的哈希表和链接列表实现，具有可预知的迭代顺序
+>
+> ​	由哈希表保证键的唯一性
+>
+> ​	由链表保证键的有序（存储和取出的顺序一致）
+
+![137、LinkedHashMap](F:\01、java基础\笔记的截图图片\137、LinkedHashMap.png)
+
+### 2.4、TreeMap
+
+> 是基于红黑树的Map接口的实现
+
+![138、TreeMap](F:\01、java基础\笔记的截图图片\138、TreeMap.png)
+
+### 2.5、练习
+
+> 统计字符串中每个字符出现的次数
+
+```
+public class MapTest {
+
+	public static void main(String[] args) {
+		String s="aabbcceedlajdosfjali";
+		HashMap<String,Integer>hm=new HashMap<>();
+		
+		char[] chs=s.toCharArray();
+		for(int i=0;i<chs.length;i++){
+			String str=String.valueOf(chs[i]);
+			if(!hm.containsKey(str)){
+				hm.put(str, 1);
+			}else{
+				hm.put(str, hm.get(str)+1);
+			}
+		}
+		Set<String>set=hm.keySet();
+		for(String ss:set){
+			Integer value=hm.get(ss);
+			System.out.print(ss+"("+value+")"+" ");
+		}
+
+	}
+}
+```
+
+### 2.6、面试题
+
+> Hashtable和HashMap的区别
+
+```
+Hashtable:县城安全，效率低，不允许null键和null值
+```
+
+
+
+```
+HashMap：线程不安全，效率高，允许null键和null值
+```
+
+
+
+
+
+> List，Set，Map等接口是否都继承自Map接口
+
+```
+List，Set不是继承自Map接口，他是继承自Collection接口
+Map本身就是一个顶层接口
+```
+
+
+
+> 常见的集合类有哪些，都有什么方法
+
+```
+ArrayList，LinkedList，HashMap，TreeSet
+添加，删除，遍历，获取，删除等
+```
+
+### 2.7、Collections工具类
+
+> 是针对集合进行操作的工具类，都是静态方法
+
+#### 2.7.1、Collection和Collections的区别
+
+> Collection：是单列集合的顶层接口，有子类List和Set
+>
+> Collections:是针对集合操作的工具类，有对集合进行排序和二分查找的方法
+
+![139、Collections工具类方法](F:\01、java基础\笔记的截图图片\139、Collections工具类方法.png)
+
+
+
+# 3、集合总结
+
+### 3.1、集合的特点
+
+![140、集合总结_集合的特点](F:\01、java基础\笔记的截图图片\140、集合总结_集合的特点.png)
+
+### 3.2、如何选择使用哪种集合？
+
+![141、如何选择使用哪种集合](F:\01、java基础\笔记的截图图片\141、如何选择使用哪种集合.png)
+
+### 3.3、集合的常见方法和遍历
+
+![142、集合的常见方法和遍历方式](F:\01、java基础\笔记的截图图片\142、集合的常见方法和遍历方式.png)
 
 # 七、数据结构
 
