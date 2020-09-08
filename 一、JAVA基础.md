@@ -5781,7 +5781,7 @@ ArrayList，LinkedList，HashMap，TreeSet
 
 
 
-# 3、集合总结
+## 3、集合总结
 
 ### 3.1、集合的特点
 
@@ -5835,11 +5835,340 @@ ArrayList，LinkedList，HashMap，TreeSet
 
 ## 6、哈希表
 
+# 八、IO流
+
+## 1、异常
+
+> 程序出现了不正常的情况
+
+### 1.1、异常的分类
+
+#### Trowable
+
+> 程序的异常
+
+##### Error
+
+> 严重问题，我们不处理。一般这种都是很严重的，比如说内存溢出
+
+##### Exception
+
+> 问题
+
+###### 不是RuntimeException
+
+> 编译期问题，必须进行处理，因为你不处理，编译就不通过
+
+###### RuntimeException
+
+> 运行期问题，这种问题我们也不处理，因为这个问题出现肯定是我们的代码不够严谨，需要修正代码
+
+#### 图解
+
+![143、异常分类](F:\01、java基础\笔记的截图图片\143、异常分类.png)
 
 
 
+#### 代码
+
+```
+public class ExceptionDemo {
+
+	public static void main(String[] args) {
+		int i =10;
+		int j=0;
+		System.out.println(i/j);
+		System.out.println("over");
+
+	}
+
+}
+Exception in thread "main" java.lang.ArithmeticException: / by zero
+	at com.javase.exception.ExceptionDemo.main(ExceptionDemo.java:8)
+```
 
 
+
+### 1.2、处理异常
+
+
+
+#### A、try..catch
+
+> try里面的代码越少越好,catch里面必须有内容
+
+```
+public class ExceptionDemo {
+
+	public static void main(String[] args) {
+	    int i =10;
+		int j=0;
+		try{			
+			System.out.println(i/j);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		System.out.println("over");
+	}
+
+}
+java.lang.ArithmeticException: / by zero
+over
+	at com.javase.exception.ExceptionDemo.main(ExceptionDemo.java:9)
+
+```
+
+#### B、try...catch...finally
+
+> finally的特点及作用
+>
+> ​	特点：被finally控制的语句体一定会执行，jvm执行到finally之前退出的除外
+
+```
+public class ExceptionDemo {
+
+	public static void main(String[] args) {
+		try{
+			int i =10;
+			int j=0;
+			System.out.println(i/j);
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			System.out.println("finally");
+		}
+		System.out.println("over");
+
+	}
+}
+java.lang.ArithmeticException: / by zero
+	at com.javase.exception.ExceptionDemo.main(ExceptionDemo.java:9)
+finally
+over
+```
+
+
+
+#### C、throws 抛出
+
+```
+public class ExceptionDemo {
+
+	public static void main(String[] args)throws Exception {
+		int i =10;
+		int j=0;
+		System.out.println(i/j);
+		System.out.println("over");
+
+	}
+
+}
+Exception in thread "main" java.lang.ArithmeticException: / by zero
+	at com.javase.exception.ExceptionDemo.main(ExceptionDemo.java:8)
+```
+
+
+
+### 1.3、面试题
+
+#### A、final，finally和finalize的区别
+
+```
+final：最终的意思，可以修饰类，成员变量，成员方法
+	修饰类，类不能被继承
+	修饰变量，变量是常量
+	修饰方法，方法不能被重写
+finally：是异常处理的一部分，用于释放资源
+finalize：是Object类的一个方法，用于垃圾回收
+```
+
+
+
+#### B、catch里面有return语句，请问finally里面的代码还会执行吗
+
+```
+public class ExceptionDemo {
+
+	public static void main(String[] args) {
+		try{
+			int i =10;
+			int j=0;
+			System.out.println(i/j);			
+		}catch(Exception e){
+			e.printStackTrace();
+			return ;
+		}finally{
+			System.out.println("finally");
+		}
+		System.out.println("over");
+
+	}
+}
+java.lang.ArithmeticException: / by zero
+finally
+	at com.javase.exception.ExceptionDemo.main(ExceptionDemo.java:9)
+```
+
+![144、finally面试题2](F:\01、java基础\笔记的截图图片\144、finally面试题2.png)
+
+
+
+### 1.4、异常的注意事项
+
+![145、异常的注意事项](F:\01、java基础\笔记的截图图片\145、异常的注意事项.png)
+
+
+
+## 2、File类
+
+> 文件和目录(文件夹)路径名的抽象表现形式
+
+### 2.1、构造函数
+
+```
+File(String pathname):根据一个路径得到一个File对象
+```
+
+```
+File(String parent,String child):分局一个目录和一个子文件/目录得到File对象
+```
+
+```
+File(File parent,String child):根据一个父File对象和一个子文件/目录得到File对象
+```
+
+![146、File构造方法](F:\01、java基础\笔记的截图图片\146、File构造方法.png)
+
+### 2.2、File类的功能
+
+#### 2.2.1、创建功能
+
+```
+public boolean createNewFile()：创建文件
+public boolean mkdir():创建文件夹
+public boolean mkdirs():创建多层目录的文件夹
+```
+
+![147、File的创建方法](F:\01、java基础\笔记的截图图片\147、File的创建方法.png)
+
+#### 2.2.2、删除功能
+
+```
+public boolean delete():删除文件或者文件夹
+	要删除一个文件夹，文件夹内不能包含文件或者文件夹
+```
+
+```
+public class FileDemo {
+
+	public static void main(String[] args)throws Exception {
+		File file=new File("files/a.txt");
+		file.createNewFile();
+		
+		file.delete();
+	}
+}
+
+```
+
+
+
+#### 2.2.3、重命名功能
+
+```
+public boolean renameTo(File dest)
+	如果是同一目录下，就是改名，
+	如果不在同一目录下，就是剪切+改名
+```
+
+```
+public class FileDemo {
+
+	public static void main(String[] args)throws Exception {
+		File file=new File("files/a.txt");
+		file.createNewFile();
+		file.renameTo(new File("files/aa.txt"));
+		
+	}
+}
+```
+
+
+
+#### 2.2.4、判断功能
+
+```
+public boolean isDirectory():判断是否是文件夹
+public boolean isFile():判断是否是文件
+public boolean exists():判断是否存在
+public boolean canRead():判断是否可读
+public boolean canWrite():判断是否可写
+public boolean isHidden():判断是否隐藏
+```
+
+![148、File判断功能](F:\01、java基础\笔记的截图图片\148、File判断功能.png)
+
+#### 2.2.5、基本获取功能
+
+```
+public String getAbsolutePath();获取绝对路径
+public String getPath();获取相对路径
+public String getName();获取名称
+public long length();获取长度（字节数）
+public long lastModified();获取最新修改时间，毫秒值
+```
+
+![149、File基本获取功能](F:\01、java基础\笔记的截图图片\149、File基本获取功能.png)
+
+#### 2.2.6、高级获取功能
+
+```
+public String[] list():获取指定目录下的所有文件或者文件夹的名称数组
+
+public Fiile[] listFiles():获取指定目录下的所有文件或者文件夹的File数组
+```
+
+![150、File高级获取功能](F:\01、java基础\笔记的截图图片\150、File高级获取功能.png)
+
+##### 文件过滤器
+
+```
+public String[] list(FilenameFileter filter)
+
+public Fiile[] listFiles(FilenameFileter filter)
+```
+
+
+
+### 2.3、File练习
+
+#### A、判断E盘下是否有后缀名为.jpg的文件，如果有，就输出文件名称
+
+方式一：
+
+![151、File练习1](F:\01、java基础\笔记的截图图片\151、File练习1.png)
+
+
+
+方式二：
+
+![152、File练习2](F:\01、java基础\笔记的截图图片\152、File练习2.png)
+
+#### B、批量修改文件名
+
+![152、File改名](F:\01、java基础\笔记的截图图片\152、File改名.png)
+
+
+
+## 3、字节流
+
+## 4、转换流
+
+## 5、字符流
+
+
+
+# 发斯蒂芬
 
 
 
