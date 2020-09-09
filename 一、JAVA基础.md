@@ -5837,6 +5837,28 @@ ArrayList，LinkedList，HashMap，TreeSet
 
 # 八、IO流
 
+> 用来进行设备间的数据传输问题：上传文件和下载文件
+>
+> 
+
+```
+数据流向：
+	输入流(InputStream)	读取数据（读入）
+	输出流(OutputStream)	写出数据
+数据类型：
+	字节流
+	字符流（为了方便操作文本数据，java提供了字符流）
+
+以后到底是用哪种类型的流呢？
+	如果操作的数据是文本数据，就用字符流，
+		把你要操作的文件用windows自带的记事本打开，
+			如果你能读懂，就用字符流
+			读不懂，就用字节流
+	如果你什么都不知道，就用字节流	
+```
+
+
+
 ## 1、异常
 
 > 程序出现了不正常的情况
@@ -6158,13 +6180,338 @@ public Fiile[] listFiles(FilenameFileter filter)
 
 ![152、File改名](F:\01、java基础\笔记的截图图片\152、File改名.png)
 
+### 2.4、递归
+
+```
+1、递归一定要有出口，否则就是死递归
+2、递归的次数不能太多，否则就内存溢出
+3、构造方法不能递归使用
+```
+
+![153、递归内存图](F:\01、java基础\笔记的截图图片\153、递归内存图.png)
+
+#### A、5的阶层
+
+循环
+
+```
+public static void main(String[] args)throws Exception {
+		int sum=1;
+		for(int i=1;i<=5;i++){
+			sum*=i;
+		}
+		System.out.println(sum);
+	}
+```
+
+递归
+
+```
+public class DiGuiDemo1 {
+	public static void main(String[] args)throws Exception {
+		
+		System.out.println(show(5));
+	}
+	public static int show(int n){
+		if(n==1){
+			return 1;
+		}
+		return n*show(n-1);
+	}
+
+```
+
+
+
+#### B、E盘下所有的文件，并删除（包括文件夹）
+
+```
+public static void main(String[] args)throws Exception {
+		showFile(new File("H:\\workspace"));
+	}
+	public static void showFile(File file){
+		File[] files=file.listFiles();
+		for(File f:files){
+			if(f.isFile()){
+				System.out.println(f.getName());
+				f.delete();
+			}else if(f.isDirectory()){
+				showFile(f);
+			}
+		}
+		System.out.println(file.delete());
+	}
+```
+
+
+
+#### D、不死兔问题
+
+```
+题目：有一对兔子，从出生后第3个月起每个月都生1对兔子，小兔子第三个月后也可以生一对兔子，假如兔子不死，在指定月	 份时刻一共可以有多少对兔子
+ 分析：
+ * 		第一个月：1
+ * 		第二个月：1	2-1+2-2=第一个月=1
+ * 		第三个月：2	前两个月之和	3-1+3-2=第一个月+第二个月=1+1
+ * 		第四个月：3	前两个月之和	4-1+4-2=第三个月+第二个月=1+2
+ * 		第五个月：5
+ * 		第六个月：8
+ * 		。。。。。
+ * 		
+ * 		其实指定月份兔子的总数为此月之前两个月兔子总数之和。
+ * 
+ * 实现3种方法
+ * 		1、数组实现
+ * 		2、相邻变量实现
+ * 		3、递归实现
+ 
+ //递归实现
+ public static void main(String[] args)throws Exception {
+		System.out.println(diGui(20));
+	}
+	public static int diGui(int month){
+		if(month==2||month==1){
+			return 1;
+		}
+		return diGui(month-1)+diGui(month-2);
+	}
+	
+//数组实现
+public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		System.out.println("请输入当前月份");
+		int m=sc.nextInt();
+		int n1=0;
+		int n2=0;
+		int n3=0;
+		sc.close();
+		
+		//数组实现
+		if(m<=2) {
+			n1=1;
+			
+		}else {
+			int []x=new int[m];
+			x[0]=1;
+			x[1]=1;
+			for(int i=2;i<m;i++ ) {
+				x[i]=x[i-1]+x[i-2];		
+			}	
+			n1=x[m-1];
+		}
+		System.out.println("方法一：数组实现");
+		System.out.println("\t"+"第"+m+"月份共有"+n1+"对兔子");
+		System.out.println("--------------------------");
+		
+		
+		//相邻变量实现
+		if(m<=2) {
+			n2=1;
+			
+		}else {
+			int a=1;
+			int b=1;
+			int temp=0;
+			for(int i=0;i<m-2;i++) {
+				temp=a;
+				a=b;
+				b=temp+b;
+			}
+			n2=b;
+		}
+		System.out.println("方法二：相邻变量实现");
+		System.out.println("\t"+"第"+m+"月份共有"+n2+"对兔子");
+		System.out.println("--------------------------");
+```
+
 
 
 ## 3、字节流
 
+> InputStream:读取
+>
+> ​	--FileInputStream:
+>
+> OutputStream：写出
+>
+> ​	--FileOutputStream
+
+### 3.1、FileOutputStream
+
+#### 3.1.1、构造函数
+
+```
+FileOutputStream (File file)
+FileOutputStream (String name)
+FileOutputStream (File file,boolean append):追加数据
+FileOutputStream (String name,boolean append)
+```
+
+```
+public static void main(String[] args)throws Exception {
+		File file=new File("files//fos.txt");
+		FileOutputStream fos=new FileOutputStream(file);
+		fos.write("hello,id".getBytes());
+		fos.close();
+
+	}
+```
+
+#### 3.1.2、方法
+
+```
+public void write(int b):写一个字节
+public void write(byte[] b):写一个字节数组
+public void write(byte[] b,int off,int len):写一个字节数组的一部分
+```
+
+```
+public static void main(String[] args)throws Exception {
+		File file=new File("files//fos.txt");
+		FileOutputStream fos=new FileOutputStream(file);
+		fos.write(97);
+		
+		fos.close();
+
+	}
+	
+	public static void main(String[] args)throws Exception {
+		File file=new File("files//fos.txt");
+		FileOutputStream fos=new FileOutputStream(file);
+		
+		byte[]bys={97,98,99,100};
+		fos.write(bys);
+		
+		fos.close();
+
+	}
+	
+	
+	public static void main(String[] args)throws Exception {
+		File file=new File("files//fos.txt");
+		FileOutputStream fos=new FileOutputStream(file);
+		
+		byte[]bys={97,98,99,100};
+		fos.write(bys,1,3);
+		
+		fos.close();
+
+	}
+```
+
+#### 3.1.3、实现数据换行
+
+![154、数据实现换行](F:\01、java基础\笔记的截图图片\154、数据实现换行.png)
+
+#### 3.1.4、实现数据的追加
+
+```
+用构造方法FileOutputStream(File file,boolean append)即可
+	File file=new File("files//fos.txt");
+	FileOutputStream fos=new FileOutputStream(file,true);
+
+```
+
+
+
+### 3.2、FileInputStream
+
+#### 3.2.1、构造函数
+
+```
+FileInputStream (File file)
+FileInputStream (String name)
+```
+
+
+
+#### 3.2.2、方法
+
+```
+public void read():一次读一个字节
+public void read(byte[] b):一次读一个字节数组
+public void read(byte[] b,int off,int len):一次读一个字节数组的一部分
+```
+
+![155、FileInputStream一次读一个字节](F:\01、java基础\笔记的截图图片\155、FileInputStream一次读一个字节.png)
+
+#### 3.3.3、练习
+
+##### 1、字节流复制文本文件
+
+![156、字节流复制文本文件](F:\01、java基础\笔记的截图图片\156、字节流复制文本文件.png)
+
+##### 2、字节流复制文本文件2
+
+![157、字节流复制文本文件](F:\01、java基础\笔记的截图图片\157、字节流复制文本文件.png)
+
+##### 3、字节流复制图片
+
+![158、字节流复制图片](F:\01、java基础\笔记的截图图片\158、字节流复制图片.png)
+
+效率高一点的
+
+![158、字节流复制图片2](F:\01、java基础\笔记的截图图片\158、字节流复制图片2.png)
+
+##### 4、字节流复制视频
+
+这种方式复制的很慢，要耐心等待
+
+![159、字节流复制视频](F:\01、java基础\笔记的截图图片\159、字节流复制视频.png)
+
+改进使用效率高一点的
+
+![159、字节流复制视频2](F:\01、java基础\笔记的截图图片\159、字节流复制视频2.png)
+
+## 4、字节缓冲区流
+
+### 4.1、BufferedOutputStream（读）
+
+#### 4.1.2、构造方法
+
+```
+BufferedOutputStream (OutputStream out)
+	为什么不传递一个具体的文件或者文件路径，而是传递igeOutputStream对象呢
+		字节缓冲流仅仅提供缓冲区流是为了高效而设计，真正的读写操作海得靠基本的流对象实现
+```
+
+![160、BufferedOutputStream](F:\01、java基础\笔记的截图图片\160、BufferedOutputStream.png)
+
+### 4.2、BufferedInputStream（写）
+
+```
+BufferedInputStream (InputStream out)
+```
+
+![161、BufferedInputStream](F:\01、java基础\笔记的截图图片\161、BufferedInputStream.png)
+
+## 5、字节流复制视频练习（四种方式）
+
+### 5.1、基本字节流一次读写一个字节
+
+![162、基本字节流一次读写一个字节1](F:\01、java基础\笔记的截图图片\162、基本字节流一次读写一个字节1.png)
+
+### 5.2、基本字节流一次读写一个字节数组
+
+![162、基本字节流一次读写一个字节数组2](F:\01、java基础\笔记的截图图片\162、基本字节流一次读写一个字节数组2.png)
+
+### 5.3、高效字节流一次读写一个字节
+
+![162、高效字节流一次读写一个字节3](F:\01、java基础\笔记的截图图片\162、高效字节流一次读写一个字节3.png)
+
+### 5.4、高效字节流一次读写一个字节数组
+
+![162、高效字节流一次读写一个字节数组4](F:\01、java基础\笔记的截图图片\162、高效字节流一次读写一个字节数组4.png)
+
 ## 4、转换流
 
 ## 5、字符流
+
+```
+Reader
+
+Writer
+```
 
 
 
