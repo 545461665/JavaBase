@@ -6465,7 +6465,7 @@ public void read(byte[] b,int off,int len):一次读一个字节数组的一部�
 
 ## 4、字节缓冲区流
 
-### 4.1、BufferedOutputStream（读）
+### 4.1、BufferedOutputStream（写入）
 
 #### 4.1.2、构造方法
 
@@ -6477,7 +6477,7 @@ BufferedOutputStream (OutputStream out)
 
 ![160、BufferedOutputStream](F:\01、java基础\笔记的截图图片\160、BufferedOutputStream.png)
 
-### 4.2、BufferedInputStream（写）
+### 4.2、BufferedInputStream（读取）
 
 ```
 BufferedInputStream (InputStream out)
@@ -6503,23 +6503,176 @@ BufferedInputStream (InputStream out)
 
 ![162、高效字节流一次读写一个字节数组4](F:\01、java基础\笔记的截图图片\162、高效字节流一次读写一个字节数组4.png)
 
-## 4、转换流
+## 6、字符流（转换流）
 
-## 5、字符流
+> 字节流读取中文在控制台，会出现小问题（可能会乱码），不是特变方便，java就提供了转换流
+>
+> 字符流=字节流+编码表
+
+![163、转换流1](F:\01、java基础\笔记的截图图片\163、转换流1.png)
+
+### 4.1、编码表
+
+![164、编码表](F:\01、java基础\笔记的截图图片\164、编码表.png)
+
+
+
+### 4.2、String类中的编码和解码问题
 
 ```
-Reader
+String (byte[] bytes,String charsetName):通过制定的字符集解码字节数组
+byte[] getBytes(String charsetName):使用制定的字符集合把字符串编码为字节数组
 
+String---byte[]:编码(把看懂的字变成看不懂的)
+byte[]---String:解码(把看不懂的变成看得懂的)
+```
+
+![165、String类中的编码和解码问题](F:\01、java基础\笔记的截图图片\165、String类中的编码和解码问题.png)
+
+### 4.3、字符流流的构造方法
+
+```
 Writer
+    OutPutStreamWriter(写入)
+        OutPutStreamWriter(OutputStream out):根据默认编码把字节流转换成字符流
+        OutPutStreamWriter(OutputStream out,String charsetName)：根据指定编码把字节流转换成字符																	流
+
+Reader        
+    InputStreamRead(读取)、
+        InputStreamRead(InputStream is):用默认的编码读取数据
+        InputStreamRead(InputStream is ,String charsetName用指定的编码读取数据
+	
+```
+
+### 4.4、字符流写数据的方法
+
+```
+OutputStreamWriter的方法
+    public void write(int c):写一个字符
+    public void write(char[] cbuf):写一个字符数组
+    public void write(char[] cbuf,int off,int len):写一个字符数组的一部分
+    public void write(String str):写一个字符串
+    public void write(String str,int off,int len):写一个字符串的一部分
+    void flush();
 ```
 
 
 
-# 发斯蒂芬
+### 4.5、字符流读取数据的方法
+
+```
+InputStreamReader
+	public void read():一次读取一个字符
+	public void read(char[] chs):一次读取一个字符数组
+```
+
+![166、字符流复制文本文件1](F:\01、java基础\笔记的截图图片\166、字符流复制文本文件1.png)
 
 
 
+### 4.6、练习
 
+#### 1、字符流复制文本文件1
+
+![166、字符流复制文本文件2](F:\01、java基础\笔记的截图图片\166、字符流复制文本文件2.png)
+
+#### 2、字符流的子类复制文本文件
+
+![166、字符流复制文本文件3](F:\01、java基础\笔记的截图图片\166、字符流复制文本文件3.png)
+
+
+
+一次一个字符数组
+
+![166、字符流复制文本文件4](F:\01、java基础\笔记的截图图片\166、字符流复制文本文件4.png)
+
+
+
+### 4.7、字符缓冲流
+
+> 字符流为了高效读写，提供了对应的字符缓冲流
+
+#### 4.7.1、构造函数
+
+```
+BufferedWriter:字符缓冲输出流
+	
+BufferedReader(Reader in):字符缓冲输入流
+	
+```
+
+#### ![167、字符缓冲流复制文本文件](F:\01、java基础\笔记的截图图片\167、字符缓冲流复制文本文件.png)
+
+#### 4.7.2、方法
+
+```
+BufferedWriter:
+	public void newLine():写入一个行分隔符,根据系统来决定换行符
+BufferedReader：
+	public String readLine():一次读取一行数据
+```
+
+![167、字符缓冲流复制文本文件2](F:\01、java基础\笔记的截图图片\167、字符缓冲流复制文本文件2.png)
+
+### 4.8、IO流小结
+
+![168、IO流小结图解](F:\01、java基础\笔记的截图图片\168、IO流小结图解.png)
+
+## 7、练习
+
+### 1、复制文本文件
+
+![169、复制文本文件1](F:\01、java基础\笔记的截图图片\169、复制文本文件1.png)
+
+### 2、复制图片
+
+### ![169、复制图片](F:\01、java基础\笔记的截图图片\169、复制图片.png)3、把集合中的数据存到文本文件
+
+![169、把集合中的数据存到文本文件](F:\01、java基础\笔记的截图图片\169、把集合中的数据存到文本文件.png)
+
+### 4、把文本文件的数据存到集合
+
+![169、把集合中的数据存到文本文件](F:\01、java基础\笔记的截图图片\169、把集合中的数据存到文本文件.png)
+
+### 5、随机获取文本中的姓名
+
+![169、把集合中的数据存到文本文件](F:\01、java基础\笔记的截图图片\169、随机获取文本中的姓名.png)
+
+### 6、复制单级文件夹
+
+![169、复制单级文件夹](F:\01、java基础\笔记的截图图片\169、复制单级文件夹.png)
+
+### 7、复制指定目录下指定文件并修改文件名称
+
+![169、复制指定目录下指定文件并修改文件名称](F:\01、java基础\笔记的截图图片\169、复制指定目录下指定文件并修改文件名称.bmp)
+
+### 8、复制多级文件夹
+
+![169、复制多级文件夹](F:\01、java基础\笔记的截图图片\169、复制多级文件夹.bmp)
+
+### 9、把一个文件中的字符串排序后在写入里那个一个文件
+
+![169、把一个文件中的字符串排序后在写入里那个一个文件](F:\01、java基础\笔记的截图图片\169、把一个文件中的字符串排序后在写入里那个一个文件.png)
+
+## 8、面试题
+
+### 1、close和flush的区别
+
+```
+close()关闭流对象，但是先刷新一次缓冲区，关闭之后流对象不可以继续使用
+flush()刷新换乘功能区，流对象可以继续使用
+如果数据没有那么大得时候就使用close()，数据大得时候就是用flush()
+```
+
+
+
+# 九、多线程
+
+
+
+# 十、网络编程
+
+# 十一、反射
 
 
 
